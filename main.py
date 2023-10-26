@@ -1,7 +1,7 @@
 from util import handle_preflight
 import functions_framework
 
-NEED_CORS_PREFLIGHT_HEADER = False
+NEED_CORS_PREFLIGHT_RESPONSE = False
 ALLOWED_ORIGINS = "*"
 
 
@@ -24,7 +24,7 @@ def http_function(request):
     response = {}
     status_code = 200
 
-    if NEED_CORS_PREFLIGHT_HEADER:
+    if NEED_CORS_PREFLIGHT_RESPONSE:
         header["Access-Control-Allow-Origin"] = ALLOWED_ORIGINS
         if request.method == "OPTIONS":
             # Handle CORS preflight request
