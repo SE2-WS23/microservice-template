@@ -1,4 +1,3 @@
-from flask import escape
 from util import handle_preflight
 import functions_framework
 
@@ -14,7 +13,7 @@ def http_function(request):
         <https://flask.palletsprojects.com/en/1.1.x/api/#incoming-request-data>
     Returns:
         A set of values that can be turned into a Response object using
-        ‚`make_response`
+        `make_response`
         <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
 
