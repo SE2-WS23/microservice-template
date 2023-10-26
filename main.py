@@ -3,6 +3,7 @@ import functions_framework
 
 NEED_CORS_PREFLIGHT_RESPONSE = False
 ALLOWED_ORIGINS = "*"
+SUPPORTED_METHODS = ["GET", "OPTIONS"]
 
 
 @functions_framework.http
@@ -23,6 +24,9 @@ def http_function(request):
     header = {}
     response = {}
     status_code = 200
+
+    if request.method not in SUPPORTED_METHODS:
+        return "", 405, header
 
     if NEED_CORS_PREFLIGHT_RESPONSE:
         header["Access-Control-Allow-Origin"] = ALLOWED_ORIGINS
