@@ -1,7 +1,7 @@
 from util import handle_preflight
 import functions_framework
 
-NEED_CORS_PREFLIGHT_RESPONSE = False
+NEED_CORS_PREFLIGHT_RESPONSE = True
 ALLOWED_ORIGINS = "*"
 SUPPORTED_METHODS = ["GET", "OPTIONS"]
 
@@ -32,9 +32,15 @@ def http_function(request):
         header["Access-Control-Allow-Origin"] = ALLOWED_ORIGINS
         if request.method == "OPTIONS":
             # Handle CORS preflight request
-            return handle_preflight()
+            return handle_preflight(allowed_methods=SUPPORTED_METHODS)
 
     # ToDo: Add your functionality and update the response and status code accordingly
+    if request.method == "GET":
+        response = {"message": "Hello World!"}
+        status_code = 200
+    else:
+        response = {"message": "Method not supported"}
+        status_code = 405
 
     return response, status_code, header
 
