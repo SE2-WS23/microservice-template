@@ -4,7 +4,7 @@ This repository contains the template for a microservice. It is based on the Goo
 
 ## Steps to setup the project:
 
-1. Install python3 and pip3 (Verision 3.12)
+1. Install python3 (Version 3.12) and pip3 
 2. In your terminal run: `python3 -m venv env`
 3. In your terminal run: `source env/bin/activate` (Should be done every time you open a new terminal or a new instance)
 4. In your terminal run: `python3 -m pip install -r requirements.txt`
