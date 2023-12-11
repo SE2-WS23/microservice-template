@@ -1,5 +1,6 @@
-from util import handle_preflight
+from utils.preflight import handle_preflight
 import functions_framework
+from methods.get import get
 
 NEED_CORS_PREFLIGHT_RESPONSE = True
 ALLOWED_ORIGINS = "*"
@@ -8,16 +9,15 @@ SUPPORTED_METHODS = ["GET", "OPTIONS"]
 
 @functions_framework.http
 def http_function(request):
-    """HTTP Cloud Function.
-    Args:
-        request (flask.Request): The request object.
-        <https://flask.palletsprojects.com/en/1.1.x/api/#incoming-request-data>
-    Returns:
-        A set of values that can be turned into a Response object using
-        `make_response`
-        <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
+    The above function is a template for an HTTP function that handles different HTTP methods and
+    returns a response, status code, and header based on the request method.
 
+    :param request: The `request` parameter is an object that represents the HTTP request made to the
+    server. It contains information such as the HTTP method (GET, POST, etc.), headers, query
+    parameters, and the request body. It is derived from the Flask request object.
+    :return: three values: `response`, `status_code`, and `header`.
+    """
     # ToDo: Set header, status_code and response. You response can have any value
     # that can be turned into a Repsonse object using `make_reponse'.
     # See more https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response
@@ -25,19 +25,20 @@ def http_function(request):
     response = {}
     status_code = 200
 
+    # Don't change this
     if request.method not in SUPPORTED_METHODS:
         return "", 405, header
 
+    # Don't change this
     if NEED_CORS_PREFLIGHT_RESPONSE:
         header["Access-Control-Allow-Origin"] = ALLOWED_ORIGINS
         if request.method == "OPTIONS":
             # Handle CORS preflight request
             return handle_preflight(allowed_methods=SUPPORTED_METHODS)
 
-    # ToDo: Add your functionality and update the response and status code accordingly
+    # ToDo: Link your methods from methods/ here
     if request.method == "GET":
-        response = {"message": "Hello World!"}
-        status_code = 200
+        response, status_code, header = get(request, response, header)
     else:
         response = {"message": "Method not supported"}
         status_code = 405
