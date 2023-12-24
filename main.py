@@ -1,10 +1,11 @@
 from utils.preflight import handle_preflight
 import functions_framework
 from methods.get import get
+from methods.post import post
 
 NEED_CORS_PREFLIGHT_RESPONSE = True
 ALLOWED_ORIGINS = "*"
-SUPPORTED_METHODS = ["GET", "OPTIONS"]
+SUPPORTED_METHODS = ["GET", "POST", "OPTIONS"]
 
 
 @functions_framework.http
@@ -18,9 +19,6 @@ def http_function(request):
     parameters, and the request body. It is derived from the Flask request object.
     :return: three values: `response`, `status_code`, and `header`.
     """
-    # ToDo: Set header, status_code and response. You response can have any value
-    # that can be turned into a Repsonse object using `make_reponse'.
-    # See more https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response
     header = {}
     response = {}
     status_code = 200
@@ -37,8 +35,13 @@ def http_function(request):
             return handle_preflight(allowed_methods=SUPPORTED_METHODS)
 
     # ToDo: Link your methods from methods/ here
+    # ToDo: Set header, status_code and response. You response can have any value
+    # that can be turned into a Repsonse object using `make_reponse'.
+    # See more https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response
     if request.method == "GET":
         response, status_code, header = get(request, response, header)
+    elif request.method == "POST":
+        response, status_code, header = post(request, response, header)
     else:
         response = {"message": "Method not supported"}
         status_code = 405
