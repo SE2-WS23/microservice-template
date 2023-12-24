@@ -1,3 +1,6 @@
+from utils.validation import validate_query_params
+
+
 def get(request, response, header, *args, **kwargs):
     """
     The function modifies the response data and header, and returns them along with a status code.
@@ -11,6 +14,18 @@ def get(request, response, header, *args, **kwargs):
     response. It is used to set custom headers for the response
     :return: the updated response, the HTTP status code, and the updated header.
     """
+
+    # Validate query parameters
+    expected_params = {
+        "param1": str,
+        "param2": int,
+    }  # Define your expected parameters and their types
+    validation_passed, error_message = validate_query_params(request, expected_params)
+
+    if not validation_passed:
+        response = {"message": error_message}
+        return response, 400, header
+
     # Change Data
     response["data"] = "Hello World!"
     header["example"] = "example"
