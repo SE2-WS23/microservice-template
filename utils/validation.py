@@ -1,7 +1,7 @@
 import json
 
 
-def validate_query_params(request, expected_params):
+def validate_query_params(request, expected_params=None):
     """
     Validates the query parameters of a request against the expected parameters.
 
@@ -9,12 +9,15 @@ def validate_query_params(request, expected_params):
     :param expected_params: A dictionary where keys are the names of expected query parameters
                             and values are the expected types (e.g., str, int).
     :return: A tuple containing a boolean indicating if validation passed,
-             and a message or None if validation failed.
+             and a message if validation failed. Also returns a status code.
     """
+    if expected_params is None or expected_params == {}:
+        return True, None, 200
+
     for param, expected_type in expected_params.items():
         # Check if the parameter is in the request
         if param not in request.args:
-            return False, f"Missing query parameter: {param}"
+            return False, f"Missing query parameter: {param}", 400
 
         # Validate the type of the parameter
         try:
@@ -23,12 +26,10 @@ def validate_query_params(request, expected_params):
             return (
                 False,
                 f"Incorrect type for parameter: {param}. Expected {expected_type.__name__}",
+                400,
             )
 
-    return True, None
-
-
-import json
+    return True, None, 200
 
 
 def validate_request_body(request, expected_body_schema=None):

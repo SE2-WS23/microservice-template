@@ -20,11 +20,13 @@ def get(request, response, header, *args, **kwargs):
         "param1": str,
         "param2": int,
     }  # Define your expected parameters and their types
-    validation_passed, error_message = validate_query_params(request, expected_params)
+    validation_passed, error_message, status_code = validate_query_params(
+        request, expected_params
+    )
 
     if not validation_passed:
         response = {"message": error_message}
-        return response, 400, header
+        return response, status_code, header
 
     # Change Data
     response["data"] = "Hello World!"
